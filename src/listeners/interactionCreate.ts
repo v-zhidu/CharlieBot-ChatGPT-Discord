@@ -20,10 +20,9 @@ const handleSlashCommand = async (
     (c: Command) => c.name === interaction.commandName,
   )
   if (!slashCommand) {
-    interaction.followUp({ content: 'An error has occurred' })
+    interaction.reply({ content: 'An error has occurred', ephemeral: true })
     return
   }
 
-  await interaction.deferReply({ ephemeral: false })
   slashCommand.run(client, interaction, openaiBot)
 }

@@ -50,8 +50,28 @@ class OpenAIBot {
       top_p: 1,
       frequency_penalty: 0.0,
       presence_penalty: 0.0,
-      prompt: `Translate this into ${to}:\n\n${promot}`,
+      prompt: `Translate this into ${to}:\n\n${promot}\n\n`,
     }
+    return await this.completion(request)
+  }
+
+  async correct(text: string): Promise<string | undefined> {
+    if (isNullOrEmpty(text)) {
+      return 'Please enter a sentence.'
+    }
+
+    const request: CreateCompletionRequest = {
+      // this model field is required
+      model: 'text-davinci-003',
+      // add your ChatGPT model parameters below
+      temperature: 0.3,
+      max_tokens: 256,
+      top_p: 1,
+      frequency_penalty: 0.0,
+      presence_penalty: 0.0,
+      prompt: `Correct this to more standard and authentic. If it is correct, reply correct:\n\n${text}\n\n`,
+    }
+
     return await this.completion(request)
   }
 

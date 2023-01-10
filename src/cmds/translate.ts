@@ -71,13 +71,15 @@ export const Translate: Command = {
     interaction: ChatInputCommandInteraction,
     openaiBot: OpenAIBot,
   ) => {
+    await interaction.deferReply()
     const lang = interaction.options.getString('lang') ?? 'English'
     const text = interaction.options.getString('text') ?? ''
     const reply = await openaiBot.translate(text, lang)
+    await interaction.deleteReply()
 
-    const formatedReply = `> **Transalate into ${lang}**:\n> ${text}\n\n *${reply}*`
+    const formatedReply = `**Transalate into ${lang}: ${text}** - <@${interaction.user.id}>\n\n*${reply}*`
 
-    await interaction.followUp({
+    await interaction.channel?.send({
       content: formatedReply,
     })
   },

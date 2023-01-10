@@ -24,11 +24,13 @@ export const Answers: Command = {
     interaction: ChatInputCommandInteraction,
     openaiBot: OpenAIBot,
   ) => {
+    await interaction.deferReply()
     const question = interaction.options.getString('question') ?? ''
     const reply = await openaiBot.qa(question)
+    await interaction.deleteReply()
 
-    const formatedReply = `> **${question}**\n\n *${reply}*`
-    await interaction.followUp({
+    const formatedReply = `**Q: ${question}** - <@${interaction.user.id}>\n\n*${reply}*`
+    await interaction.channel?.send({
       content: formatedReply,
     })
   },

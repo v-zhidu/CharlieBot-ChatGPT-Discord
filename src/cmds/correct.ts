@@ -7,15 +7,14 @@ import { Command } from '../types/command'
 import OpenAIBot from '../openaiBot'
 
 // Define your command
-export const Imagine: Command = {
-  name: 'imagine',
-  description: 'Generate an image based on a text prompt.',
+export const Correct: Command = {
+  name: 'correct',
+  description: 'Corrects sentences into standard English.',
   options: [
     {
       type: ApplicationCommandOptionType.String,
       name: 'text',
-      description:
-        'The text prompt to generate an image from. Example: "A cat in a hat, digital art."',
+      description: 'The text to correct. Example: "She no went to the market.',
       required: true,
     },
   ],
@@ -26,17 +25,12 @@ export const Imagine: Command = {
   ) => {
     await interaction.deferReply()
     const text = interaction.options.getString('text') ?? ''
-    const imageUrl = await openaiBot.image(text)
+    const reply = await openaiBot.correct(text)
     await interaction.deleteReply()
 
-    const attchment =
-      imageUrl === undefined
-        ? { attachment: '', name: 'image.png' }
-        : { attachment: imageUrl, name: 'image.png' }
-
+    const formatedReply = `**Correct this sentence: ${text}** - <@${interaction.user.id}>\n\n*${reply}*`
     await interaction.channel?.send({
-      content: `**${text}** - <@${interaction.user.id}>`,
-      files: [attchment],
+      content: formatedReply,
     })
   },
 }

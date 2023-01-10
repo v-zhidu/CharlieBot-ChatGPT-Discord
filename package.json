@@ -5,7 +5,7 @@
   "main": "src/main.ts",
   "scripts": {
     "build": "tsc",
-    "dev": "nodemon --exec node --watch .env --loader ts-node/esm src/main.ts",
+    "dev": "nodemon --exec node --loader ts-node/esm src/main.ts",
     "start": "node --loader ts-node/esm src/main.ts"
   },
   "author": "",
