@@ -34,7 +34,7 @@ export default (client: Client, openaiBot: OpenAIBot): void => {
       console.debug(
         `Received message from ${message.author.tag}: ${cleanContent}`,
       )
-      const reply = await openaiBot.chat(message.channel.id, cleanContent)
+      const reply = await openaiBot.chat(message.author.id, cleanContent)
       message.reply({ content: reply })
     }
   })
